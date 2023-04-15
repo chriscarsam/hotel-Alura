@@ -74,7 +74,7 @@ public class Login extends JFrame {
 		panel_1.setLayout(null);
 		
 		JLabel imgHotel = new JLabel("");
-		imgHotel.setBounds(0, 0, 304, 538);
+		imgHotel.setBounds(0, 0, 304, 400);
 		panel_1.add(imgHotel);
 		imgHotel.setIcon(new ImageIcon(Login.class.getResource("/org/sam/alurahotel/imagenes/img-hotel-login-.png")));
 		
@@ -105,7 +105,7 @@ public class Login extends JFrame {
 		labelExit.setBounds(0, 0, 53, 36);
 		btnexit.add(labelExit);
 		labelExit.setForeground(SystemColor.text);
-		labelExit.setFont(new Font("Roboto", Font.PLAIN, 18));
+		labelExit.setFont(new Font("Ubuntu", Font.PLAIN, 18));
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);		
 		
 		txtUsuario = new JTextField();
@@ -137,8 +137,8 @@ public class Login extends JFrame {
 		
 		JLabel labelTitulo = new JLabel("INICIAR SESIÓN");
 		labelTitulo.setForeground(SystemColor.textHighlight);
-		labelTitulo.setFont(new Font("Roboto Black", Font.PLAIN, 26));
-		labelTitulo.setBounds(65, 149, 202, 26);
+		labelTitulo.setFont(new Font("Ubuntu", Font.PLAIN, 25));
+		labelTitulo.setBounds(150, 149, 202, 26);
 		panel.add(labelTitulo);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -169,13 +169,13 @@ public class Login extends JFrame {
 		
 		JLabel LabelUsuario = new JLabel("USUARIO");
 		LabelUsuario.setForeground(SystemColor.textInactiveText);
-		LabelUsuario.setFont(new Font("Roboto Black", Font.PLAIN, 20));
+		LabelUsuario.setFont(new Font("Ubuntu", Font.PLAIN, 15));
 		LabelUsuario.setBounds(65, 219, 107, 26);
 		panel.add(LabelUsuario);
 		
 		JLabel lblContrasea = new JLabel("CONTRASEÑA");
 		lblContrasea.setForeground(SystemColor.textInactiveText);
-		lblContrasea.setFont(new Font("Roboto Black", Font.PLAIN, 20));
+		lblContrasea.setFont(new Font("Ubuntu", Font.PLAIN, 15));
 		lblContrasea.setBounds(65, 316, 140, 26);
 		panel.add(lblContrasea);
 		
@@ -196,22 +196,22 @@ public class Login extends JFrame {
 			}
 		});
 		btnLogin.setBackground(SystemColor.textHighlight);
-		btnLogin.setBounds(65, 431, 122, 44);
+		btnLogin.setBounds(160, 431, 150, 44);
 		panel.add(btnLogin);
 		btnLogin.setLayout(null);
 		btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		
 		JLabel lblNewLabel = new JLabel("ENTRAR");
-		lblNewLabel.setBounds(0, 0, 122, 44);
+		lblNewLabel.setBounds(25, 0, 100, 44);
 		btnLogin.add(lblNewLabel);
 		lblNewLabel.setForeground(SystemColor.controlLtHighlight);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Roboto", Font.PLAIN, 18));
+		lblNewLabel.setFont(new Font("Ubuntu", Font.PLAIN, 18));
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/org/sam/alurahotel/imagenes/lOGO-50PX.png")));
-		lblNewLabel_1.setBounds(65, 65, 48, 59);
+		lblNewLabel_1.setBounds(210, 65, 48, 59);
 		panel.add(lblNewLabel_1);
 		
 		JPanel header = new JPanel();
