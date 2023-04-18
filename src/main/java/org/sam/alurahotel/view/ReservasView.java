@@ -1,6 +1,5 @@
 package org.sam.alurahotel.view;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,17 +8,22 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.EventQueue;
+
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.text.Format;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.beans.PropertyChangeEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -37,6 +41,7 @@ public class ReservasView extends JFrame {
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	private JLabel labelAtras;
+	private Long valor;
 
 	/**
 	 * Launch the application.
@@ -101,13 +106,13 @@ public class ReservasView extends JFrame {
 		separator_1_1.setBackground(SystemColor.textHighlight);
 		panel.add(separator_1_1);
 		
-		JLabel lblCheckIn = new JLabel("FECHA DE CHECK IN");
+		JLabel lblCheckIn = new JLabel("FECHA DE REGISTRO");
 		lblCheckIn.setForeground(SystemColor.textInactiveText);
 		lblCheckIn.setBounds(68, 136, 169, 14);
 		lblCheckIn.setFont(new Font("Ubuntu", Font.PLAIN, 18));
 		panel.add(lblCheckIn);
 		
-		JLabel lblCheckOut = new JLabel("FECHA DE CHECK OUT");
+		JLabel lblCheckOut = new JLabel("FECHA DE SALIDA");
 		lblCheckOut.setForeground(SystemColor.textInactiveText);
 		lblCheckOut.setBounds(68, 221, 187, 14);
 		lblCheckOut.setFont(new Font("Ubuntu", Font.PLAIN, 18));
@@ -264,8 +269,9 @@ public class ReservasView extends JFrame {
 		txtFechaSalida.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		txtFechaSalida.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva
-			}
+				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva		
+				
+			}			
 		});
 		txtFechaSalida.setDateFormatString("yyyy-MM-dd");
 		txtFechaSalida.getCalendarButton().setBackground(new Color(12, 138, 199));	
@@ -305,12 +311,15 @@ public class ReservasView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {		
-					RegistroHuesped registro = new RegistroHuesped();
-					registro.setVisible(true);
+					guardarReserva();
+					//RegistroHuesped registro = new RegistroHuesped();
+					//registro.setVisible(true);					
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
+					
 				}
-			}						
+			}
+									
 		});
 		btnsiguiente.setLayout(null);
 		btnsiguiente.setBackground(new Color(12, 138, 199));		
@@ -318,6 +327,37 @@ public class ReservasView extends JFrame {
 		panel.add(btnsiguiente);
 		btnsiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+	}
+	
+	// Método guardar Reserva
+	private void guardarReserva() {
+			
+				 LocalDate fechaEntrada = convertToLocalDateViaInstant(txtFechaEntrada.getDate());
+				 LocalDate fechaSalida = convertToLocalDateViaInstant(txtFechaSalida.getDate());
+				 long diferenciaDias = ChronoUnit.DAYS.between(fechaEntrada, fechaSalida) + 1;
+		
+				 if(fechaEntrada.compareTo(fechaSalida) <= 0) {
+					 valor = diferenciaDias * 50l;					
+					 txtValor.setText(" $ " + valor);
+					 JOptionPane.showMessageDialog(null, "Fecha de registro: " + fechaEntrada + 
+							 "\nFecha de salida: " + fechaSalida + 
+							 "\nNúmero de días: " + diferenciaDias +
+							 "\nValor a cancelar: $ " + valor +
+							 "\nForma de pago: " + txtFormaPago.getSelectedItem());
+					 
+				 } else {
+					 JOptionPane.showMessageDialog(null, "La fecha de salida debe ser mayor que la fecha de registro...");					 
+				 }
+						 
+				
+	}
+
+	// Método para convertir Date a LocalDate, 
+	// Referencia: https://www.baeldung.com/java-date-to-localdate-and-localdatetime
+	public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
 	}
 		
 	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"	
