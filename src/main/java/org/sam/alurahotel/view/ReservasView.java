@@ -29,6 +29,8 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import org.sam.alurahotel.modelo.Reserva;
+
 
 @SuppressWarnings("serial")
 public class ReservasView extends JFrame {
@@ -40,9 +42,13 @@ public class ReservasView extends JFrame {
 	public static JComboBox<String> txtFormaPago;
 	int xMouse, yMouse;
 	private JLabel labelExit;
-	private JLabel labelAtras;
-	private Long valor;
+	private JLabel labelAtras;	
 
+	private LocalDate fechaEntrada;
+	private LocalDate fechaSalida;
+	private Long diferenciaDias;
+	private Long valor;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -106,7 +112,7 @@ public class ReservasView extends JFrame {
 		separator_1_1.setBackground(SystemColor.textHighlight);
 		panel.add(separator_1_1);
 		
-		JLabel lblCheckIn = new JLabel("FECHA DE REGISTRO");
+		JLabel lblCheckIn = new JLabel("FECHA DE ENTRADA");
 		lblCheckIn.setForeground(SystemColor.textInactiveText);
 		lblCheckIn.setBounds(68, 136, 169, 14);
 		lblCheckIn.setFont(new Font("Ubuntu", Font.PLAIN, 18));
@@ -267,12 +273,7 @@ public class ReservasView extends JFrame {
 		txtFechaSalida.getCalendarButton().setBounds(267, 1, 21, 31);
 		txtFechaSalida.setBackground(Color.WHITE);
 		txtFechaSalida.setFont(new Font("Ubuntu", Font.PLAIN, 16));
-		txtFechaSalida.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
-				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva		
-				
-			}			
-		});
+		
 		txtFechaSalida.setDateFormatString("yyyy-MM-dd");
 		txtFechaSalida.getCalendarButton().setBackground(new Color(12, 138, 199));	
 		txtFechaSalida.setBorder(new LineBorder(new Color(255, 255, 255), 0));
@@ -282,13 +283,32 @@ public class ReservasView extends JFrame {
 		txtValor.setBackground(SystemColor.text);
 		txtValor.setHorizontalAlignment(SwingConstants.CENTER);
 		txtValor.setForeground(Color.BLACK);
-		txtValor.setBounds(78, 328, 43, 33);
+		txtValor.setBounds(50, 328, 100, 33);
 		txtValor.setEditable(false);
-		txtValor.setFont(new Font("Ubuntu", Font.BOLD, 17));
+		txtValor.setFont(new Font("Ubuntu", Font.BOLD, 16));
 		txtValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		panel.add(txtValor);
 		txtValor.setColumns(10);
 
+		// Evento combo para calcular el valor a cancelar.
+		txtFechaEntrada.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva		
+				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
+					calularValor();
+				} 
+			}			
+		});
+				
+		// Evento combo para calcular el valor a cancelar.
+		txtFechaSalida.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				//Activa el evento, después del usuario seleccionar las fechas se debe calcular el valor de la reserva		
+				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
+					calularValor();
+				} 
+			}			
+		});
 
 		txtFormaPago = new JComboBox();
 		txtFormaPago.setBounds(68, 417, 289, 38);
@@ -312,11 +332,10 @@ public class ReservasView extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {		
 					guardarReserva();
-					//RegistroHuesped registro = new RegistroHuesped();
-					//registro.setVisible(true);					
+					RegistroHuesped registro = new RegistroHuesped();
+					registro.setVisible(true);					
 				} else {
-					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
-					
+					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");					
 				}
 			}
 									
@@ -329,28 +348,36 @@ public class ReservasView extends JFrame {
 
 	}
 	
+	protected void calularValor() {
+
+		 fechaEntrada = convertToLocalDateViaInstant(txtFechaEntrada.getDate());
+		 fechaSalida = convertToLocalDateViaInstant(txtFechaSalida.getDate());
+		 diferenciaDias = ChronoUnit.DAYS.between(fechaEntrada, fechaSalida) + 1;
+
+		 if(fechaEntrada.compareTo(fechaSalida) <= 0) {
+			 valor = diferenciaDias * 50l;	
+			 txtValor.setText(" $ " + valor);
+		 } else {
+			 JOptionPane.showMessageDialog(null, "La fecha de salida debe ser mayor que la fecha de registro...");
+		 }
+		 
+	}
+
 	// Método guardar Reserva
-	private void guardarReserva() {
-			
-				 LocalDate fechaEntrada = convertToLocalDateViaInstant(txtFechaEntrada.getDate());
-				 LocalDate fechaSalida = convertToLocalDateViaInstant(txtFechaSalida.getDate());
-				 long diferenciaDias = ChronoUnit.DAYS.between(fechaEntrada, fechaSalida) + 1;
-		
-				 if(fechaEntrada.compareTo(fechaSalida) <= 0) {
-					 valor = diferenciaDias * 50l;					
-					 txtValor.setText(" $ " + valor);
-					 JOptionPane.showMessageDialog(null, "Fecha de registro: " + fechaEntrada + 
-							 "\nFecha de salida: " + fechaSalida + 
-							 "\nNúmero de días: " + diferenciaDias +
-							 "\nValor a cancelar: $ " + valor +
-							 "\nForma de pago: " + txtFormaPago.getSelectedItem());
+	private void guardarReserva() {								 				
 					 
-				 } else {
-					 JOptionPane.showMessageDialog(null, "La fecha de salida debe ser mayor que la fecha de registro...");					 
-				 }
-						 
+		  JOptionPane.showMessageDialog(null, "Fecha de registro: " + fechaEntrada + 
+			"\nFecha de salida: " + fechaSalida + 
+			"\nNúmero de días: " + diferenciaDias +
+			"\nValor a cancelar: $ " + valor +
+			"\nForma de pago: " + txtFormaPago.getSelectedItem()); 						
+		  
+		  Reserva reserva = new Reserva(fechaEntrada, fechaSalida, valor, (String)txtFormaPago.getSelectedItem());
+		  System.out.println(reserva);
 				
 	}
+	
+	
 
 	// Método para convertir Date a LocalDate, 
 	// Referencia: https://www.baeldung.com/java-date-to-localdate-and-localdatetime
