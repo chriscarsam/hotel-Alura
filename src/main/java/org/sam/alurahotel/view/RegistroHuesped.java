@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.sam.alurahotel.controller.HuespedController;
+import org.sam.alurahotel.modelo.Huesped;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
@@ -13,14 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import java.awt.SystemColor;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.text.Format;
-import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
@@ -38,6 +42,10 @@ public class RegistroHuesped extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
+	
+	private LocalDate fechaN;
+	
+	private HuespedController huespedController;
 
 	/**
 	 * Launch the application.
@@ -60,6 +68,9 @@ public class RegistroHuesped extends JFrame {
 	 * @param id 
 	 */
 	public RegistroHuesped(Long idReserva) {
+		super("Huesped");
+		
+		this.huespedController = new HuespedController();
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistroHuesped.class.getResource("/org/sam/alurahotel/imagenes/lOGO-50PX.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -258,6 +269,11 @@ public class RegistroHuesped extends JFrame {
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if (!txtNombre.getText().isEmpty() && !txtApellido.getText().isEmpty() && txtFechaN.getDate() != null && !txtTelefono.getText().isEmpty()) {
+					guardarHuesped();		
+				} else {
+					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
+				}
 			}
 		});
 		btnguardar.setLayout(null);
@@ -271,6 +287,7 @@ public class RegistroHuesped extends JFrame {
 		labelGuardar.setFont(new Font("Ubuntu", Font.PLAIN, 18));
 		labelGuardar.setBounds(0, 0, 122, 35);
 		btnguardar.add(labelGuardar);
+	
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 489, 634);
@@ -289,8 +306,7 @@ public class RegistroHuesped extends JFrame {
 		logo.setIcon(new ImageIcon(RegistroHuesped.class.getResource("/org/sam/alurahotel/imagenes/Ha-100px.png")));
 		
 		JPanel btnexit = new JPanel();
-		btnexit.setBounds(857, 0, 53, 36);
-		contentPane.add(btnexit);
+		btnexit.setBounds(857, 0, 53, 36);		
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -305,21 +321,51 @@ public class RegistroHuesped extends JFrame {
 			}			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				 btnexit.setBackground(Color.white);
-			     labelExit.setForeground(Color.black);
+				 btnexit.setBackground(Color.WHITE);
+			     labelExit.setForeground(Color.BLACK);
 			}
 		});
 		btnexit.setLayout(null);
 		btnexit.setBackground(Color.white);
+		btnexit.setBounds(857, 0, 53, 36);
+		header.add(btnexit);
 		
 		labelExit = new JLabel("X");
-		labelExit.setBounds(0, 0, 53, 36);
-		btnexit.add(labelExit);
+		labelExit.setBounds(0, 0, 53, 36);		
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 		labelExit.setForeground(SystemColor.black);
 		labelExit.setFont(new Font("Ubuntu", Font.PLAIN, 18));
+		btnexit.add(labelExit);
+		
 	}
 	
+	// Método para convertir Date a LocalDate, 
+		// Referencia: https://www.baeldung.com/java-date-to-localdate-and-localdatetime
+		public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+		    return dateToConvert.toInstant()
+		      .atZone(ZoneId.systemDefault())
+		      .toLocalDate();
+		}
+		
+		// Método guardar Huesped
+		private void guardarHuesped() {		
+			fechaN = convertToLocalDateViaInstant(txtFechaN.getDate());
+			/*JOptionPane.showMessageDialog(null, 
+					"Nombre: " + txtNombre.getText() +
+					"\nApellido: " + txtApellido.getText() +
+					"\nFecha de nacimiento: " + fechaN +
+					"\nTélefono: " + txtTelefono.getText() + 
+					"\nNúmero de reserva: " + txtNreserva.getText());		*/
+			
+			Huesped nuevoHuesped = new Huesped(txtNombre.getText(), txtApellido.getText(), fechaN.toString(), (String)txtNacionalidad.getSelectedItem(), txtTelefono.getText(), Long.valueOf(txtNreserva.getText()));
+			this.huespedController.guardar(nuevoHuesped);
+			
+			JOptionPane.showMessageDialog(this, "Registrado con éxito! ");
+			
+			MenuUsuario usuario = new MenuUsuario();
+			usuario.setVisible(true);
+			dispose();
+		}
 	
 	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"	
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {

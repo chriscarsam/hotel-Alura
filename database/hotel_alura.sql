@@ -21,3 +21,6 @@ telefono VARCHAR(35) NOT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (id_reserva) REFERENCES reservas(id)
 )ENGINE=InnoDB;
+
+SELECT *FROM reservas;
+SELECT *FROM huespedes;
