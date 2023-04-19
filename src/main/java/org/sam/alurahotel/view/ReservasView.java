@@ -29,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import org.sam.alurahotel.controller.ReservaController;
 import org.sam.alurahotel.modelo.Reserva;
 
 
@@ -48,6 +49,8 @@ public class ReservasView extends JFrame {
 	private LocalDate fechaSalida;
 	private Long diferenciaDias;
 	private Long valor;
+	
+	private ReservaController reservaController;
 	
 	/**
 	 * Launch the application.
@@ -70,6 +73,9 @@ public class ReservasView extends JFrame {
 	 */
 	public ReservasView() {
 		super("Reserva");
+		
+		this.reservaController = new ReservaController();
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ReservasView.class.getResource("/org/sam/alurahotel/imagenes/aH-40px.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 560);
@@ -331,9 +337,7 @@ public class ReservasView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {		
-					guardarReserva();
-					RegistroHuesped registro = new RegistroHuesped();
-					registro.setVisible(true);					
+					guardarReserva();										
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");					
 				}
@@ -366,15 +370,20 @@ public class ReservasView extends JFrame {
 	// Método guardar Reserva
 	private void guardarReserva() {								 				
 					 
-		  JOptionPane.showMessageDialog(null, "Fecha de registro: " + fechaEntrada + 
+	/*	  JOptionPane.showMessageDialog(null, "Fecha de registro: " + fechaEntrada + 
 			"\nFecha de salida: " + fechaSalida + 
 			"\nNúmero de días: " + diferenciaDias +
 			"\nValor a cancelar: $ " + valor +
-			"\nForma de pago: " + txtFormaPago.getSelectedItem()); 						
-		  
-		  Reserva reserva = new Reserva(fechaEntrada, fechaSalida, valor, (String)txtFormaPago.getSelectedItem());
-		  System.out.println(reserva);
+			"\nForma de pago: " + txtFormaPago.getSelectedItem()); 			*/			
+		  	
+		 Reserva nuevaReserva = new Reserva(fechaEntrada.toString(), fechaSalida.toString(), valor, (String)txtFormaPago.getSelectedItem());
+		 this.reservaController.guardar(nuevaReserva);
 				
+		 JOptionPane.showMessageDialog(this, "Registrado con éxito! \nNúmero de reserva: " + nuevaReserva.getId());
+		 
+		 RegistroHuesped huesped = new RegistroHuesped(nuevaReserva.getId());
+		 huesped.setVisible(true);
+		 dispose();
 	}
 	
 	
