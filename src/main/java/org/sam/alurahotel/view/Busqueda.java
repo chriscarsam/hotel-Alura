@@ -6,6 +6,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.sam.alurahotel.controller.HuespedController;
+import org.sam.alurahotel.controller.ReservaController;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -38,6 +42,9 @@ public class Busqueda extends JFrame {
 	private JLabel labelAtras;
 	private JLabel labelExit;
 	int xMouse, yMouse;
+	
+	private ReservaController reservaController;
+	private HuespedController huespedController;
 
 	/**
 	 * Launch the application.
@@ -59,6 +66,11 @@ public class Busqueda extends JFrame {
 	 * Create the frame.
 	 */
 	public Busqueda() {
+		super("Reservas");
+		
+		this.reservaController = new ReservaController();
+		this.huespedController = new HuespedController();
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Busqueda.class.getResource("/org/sam/alurahotel/imagenes/lupa2.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 571);
@@ -74,8 +86,7 @@ public class Busqueda extends JFrame {
 		txtBuscar.setBounds(536, 127, 193, 31);
 		txtBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		contentPane.add(txtBuscar);
-		txtBuscar.setColumns(10);
-		
+		txtBuscar.setColumns(10);		
 		
 		JLabel lblNewLabel_4 = new JLabel("SISTEMA DE BÚSQUEDA");
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
@@ -87,20 +98,21 @@ public class Busqueda extends JFrame {
 		panel.setBackground(new Color(12, 138, 199));
 		panel.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		panel.setBounds(20, 169, 865, 328);
-		contentPane.add(panel);
-
-		
-		
+		contentPane.add(panel);		
 		
 		tbReservas = new JTable();
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		modelo = (DefaultTableModel) tbReservas.getModel();
-		modelo.addColumn("Numero de Reserva");
-		modelo.addColumn("Fecha Check In");
-		modelo.addColumn("Fecha Check Out");
+		modelo.addColumn("Número de reserva");
+		modelo.addColumn("Fecha de entada");
+		modelo.addColumn("Fecha de salida");
 		modelo.addColumn("Valor");
-		modelo.addColumn("Forma de Pago");
+		modelo.addColumn("Forma de pago");
+		
+		// Método cargar datos de reserva
+		cargarTablaReserva();
+		
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/org/sam/alurahotel/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
@@ -110,13 +122,17 @@ public class Busqueda extends JFrame {
 		tbHuespedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbHuespedes.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		modeloHuesped = (DefaultTableModel) tbHuespedes.getModel();
-		modeloHuesped.addColumn("Número de Huesped");
+		modeloHuesped.addColumn("Nº de huesped");
 		modeloHuesped.addColumn("Nombre");
 		modeloHuesped.addColumn("Apellido");
-		modeloHuesped.addColumn("Fecha de Nacimiento");
+		modeloHuesped.addColumn("Fecha de nacimiento");
 		modeloHuesped.addColumn("Nacionalidad");
-		modeloHuesped.addColumn("Telefono");
-		modeloHuesped.addColumn("Número de Reserva");
+		modeloHuesped.addColumn("Teléfono");
+		modeloHuesped.addColumn("Nº de reserva");
+		
+		// Método cargar datos de huesped
+		cargarTablaHuesped();
+		
 		JScrollPane scroll_tableHuespedes = new JScrollPane(tbHuespedes);
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/org/sam/alurahotel/imagenes/pessoas.png")), scroll_tableHuespedes, null);
 		scroll_tableHuespedes.setVisible(true);
@@ -262,6 +278,41 @@ public class Busqueda extends JFrame {
 		setResizable(false);
 	}
 	
+	private void cargarTablaReserva() {
+		
+		var reservas = this.reservaController.listar();
+		
+		reservas.forEach(reserva -> modelo.addRow(new Object[] {
+				reserva.getId(),
+				reserva.getFechaEntrada(),
+				reserva.getFechaSalida(),
+				reserva.getValor(),
+				reserva.getFormaPago()
+		}));		
+	}
+	
+	private void cargarTablaHuesped() {
+			
+			var huespedes = this.huespedController.listar();
+			
+			huespedes.forEach(huesped -> modeloHuesped.addRow(new Object[] {
+					huesped.getId(),
+					huesped.getNombre(),
+					huesped.getApellido(),
+					huesped.getFechaNacimiento(),
+					huesped.getNacionalidad(),
+					huesped.getTelefono(),
+					huesped.getIdReserva()
+			}));		
+		}
+	
+	private void limpiarTablaReserva() {
+		modelo.getDataVector().clear();
+	}
+	
+	private void limpiarTablaHuesped() {
+		modeloHuesped.getDataVector().clear();
+	}
 //Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
 	        xMouse = evt.getX();

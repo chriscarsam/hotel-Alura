@@ -13,7 +13,6 @@ public class Huesped {
 	private Long idReserva;
 	
 	public Huesped(String nombre, String apellido, String fechaNacimiento, String nacionalidad,String telefono, Long idReserva) {
-		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
@@ -21,6 +20,21 @@ public class Huesped {
 		this.telefono = telefono;
 		this.idReserva = idReserva;
 	}
+
+	
+
+	public Huesped(Long id, String nombre, String apellido, String fechaNacimiento, String nacionalidad,
+			String telefono, Long idReserva) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNacimiento = fechaNacimiento;
+		this.nacionalidad = nacionalidad;
+		this.telefono = telefono;
+		this.idReserva = idReserva;
+	}
+
+
 
 	public Long getId() {
 		return id;
@@ -76,6 +90,14 @@ public class Huesped {
 
 	public void setIdReserva(Long idReserva) {
 		this.idReserva = idReserva;
+	}
+
+	@Override
+	public String toString() {
+		return "Huesped [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaNacimiento="
+				+ fechaNacimiento + ", nacionalidad=" + nacionalidad + ", telefono=" + telefono + ", idReserva="
+				+ idReserva + "]";
 	}	
+	
 	
 }

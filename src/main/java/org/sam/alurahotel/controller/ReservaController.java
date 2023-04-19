@@ -1,5 +1,7 @@
 package org.sam.alurahotel.controller;
 
+import java.util.List;
+
 import org.sam.alurahotel.dao.ReservaDao;
 import org.sam.alurahotel.factory.ConnectionFactory;
 import org.sam.alurahotel.modelo.Reserva;
@@ -16,4 +18,7 @@ public class ReservaController {
 		reservaDao.guardar(reserva);
 	}
 	
+	public List<Reserva> listar() {
+		return reservaDao.listarReservas();
+	}
 }
