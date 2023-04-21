@@ -1,7 +1,7 @@
-CREATE DATABASE hotel_alura;
+CREATE DATABASE IF NOT EXISTS hotel_alura;
 USE hotel_alura;
 
-CREATE TABLE reservas (
+CREATE TABLE IF NOT EXISTS reservas (
 id INT UNSIGNED AUTO_INCREMENT, 
 fecha_entrada DATE NOT NULL,
 fecha_salida DATE NOT NULL,
@@ -10,7 +10,7 @@ forma_pago VARCHAR(35) NOT NULL,
 PRIMARY KEY (id)
 )ENGINE=InnoDB;
 
-CREATE TABLE huespedes (
+CREATE TABLE IF NOT EXISTS huespedes (
 id INT UNSIGNED AUTO_INCREMENT, 
 id_reserva INT UNSIGNED NOT NULL,
 nombre VARCHAR(50) NOT NULL,
@@ -23,4 +23,7 @@ FOREIGN KEY (id_reserva) REFERENCES reservas(id)
 )ENGINE=InnoDB;
 
 SELECT *FROM reservas;
-SELECT *FROM huespedes;
+SELECT *FROM huespedes ORDER BY id DESC;
+
+SELECT *FROM reservas WHERE id = 1;
+SELECT *FROM huespedes WHERE apellido LIKE "%nay%";

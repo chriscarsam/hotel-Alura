@@ -18,7 +18,7 @@ public class ReservaController {
 		reservaDao.guardar(reserva);
 	}
 	
-	public List<Reserva> listar() {
-		return reservaDao.listarReservas();
+	public List<Reserva> listar(String campo) {
+		return reservaDao.listarReservas(campo);
 	}
 }

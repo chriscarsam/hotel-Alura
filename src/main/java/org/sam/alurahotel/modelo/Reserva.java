@@ -1,6 +1,5 @@
 package org.sam.alurahotel.modelo;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class Reserva {	

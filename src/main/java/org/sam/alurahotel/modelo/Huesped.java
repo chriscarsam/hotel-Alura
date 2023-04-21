@@ -1,7 +1,5 @@
 package org.sam.alurahotel.modelo;
 
-import java.time.LocalDate;
-
 public class Huesped {
 	
 	private Long id;
@@ -21,8 +19,6 @@ public class Huesped {
 		this.idReserva = idReserva;
 	}
 
-	
-
 	public Huesped(Long id, String nombre, String apellido, String fechaNacimiento, String nacionalidad,
 			String telefono, Long idReserva) {
 		this.id = id;
@@ -33,8 +29,6 @@ public class Huesped {
 		this.telefono = telefono;
 		this.idReserva = idReserva;
 	}
-
-
 
 	public Long getId() {
 		return id;

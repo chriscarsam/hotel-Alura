@@ -17,6 +17,8 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -28,6 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 
 @SuppressWarnings("serial")
@@ -86,7 +89,7 @@ public class Busqueda extends JFrame {
 		txtBuscar.setBounds(536, 127, 193, 31);
 		txtBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		contentPane.add(txtBuscar);
-		txtBuscar.setColumns(10);		
+		txtBuscar.setColumns(10);			
 		
 		JLabel lblNewLabel_4 = new JLabel("SISTEMA DE BÚSQUEDA");
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
@@ -98,6 +101,7 @@ public class Busqueda extends JFrame {
 		panel.setBackground(new Color(12, 138, 199));
 		panel.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		panel.setBounds(20, 169, 865, 328);
+				
 		contentPane.add(panel);		
 		
 		tbReservas = new JTable();
@@ -111,7 +115,7 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Forma de pago");
 		
 		// Método cargar datos de reserva
-		cargarTablaReserva();
+		cargarTablaReserva("");
 		
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/org/sam/alurahotel/imagenes/reservado.png")), scroll_table, null);
@@ -131,7 +135,7 @@ public class Busqueda extends JFrame {
 		modeloHuesped.addColumn("Nº de reserva");
 		
 		// Método cargar datos de huesped
-		cargarTablaHuesped();
+		cargarTablaHuesped("");
 		
 		JScrollPane scroll_tableHuespedes = new JScrollPane(tbHuespedes);
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/org/sam/alurahotel/imagenes/pessoas.png")), scroll_tableHuespedes, null);
@@ -229,10 +233,48 @@ public class Busqueda extends JFrame {
 		contentPane.add(separator_1_2);
 		
 		JPanel btnbuscar = new JPanel();
-		btnbuscar.addMouseListener(new MouseAdapter() {
+		btnbuscar.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				
+				int numPanel= panel.getSelectedIndex();
+				
+				switch (numPanel) {
+				case 0:
+					
+					try {
+						Long.valueOf(txtBuscar.getText());
+					} catch (NumberFormatException e1) {						
+						txtBuscar.setText("");						
+					}
+					
+					if (!txtBuscar.getText().isEmpty()) {					
+						limpiarTabla(modelo);					
+						cargarTablaReserva(txtBuscar.getText());
+						txtBuscar.setText("");									
+					
+					} else {
+						JOptionPane.showMessageDialog(null, "RESERVAS - Ingresar el ID a buscar");
+						limpiarTabla(modelo);	
+						cargarTablaReserva("");
+					}
+					
+					break;
+				case 1:
+					
+					if (!txtBuscar.getText().isEmpty()) {					
+						limpiarTabla(modeloHuesped);					
+						cargarTablaHuesped(txtBuscar.getText());
+						txtBuscar.setText("");									
+					
+					} else {
+						JOptionPane.showMessageDialog(null, "HUÉSPEDES - Ingresa el APELLIDO a buscar");
+						limpiarTabla(modeloHuesped);	
+						cargarTablaHuesped("");
+					}
+					
+					break;
+				}				
 			}
 		});
 		btnbuscar.setLayout(null);
@@ -278,9 +320,9 @@ public class Busqueda extends JFrame {
 		setResizable(false);
 	}
 	
-	private void cargarTablaReserva() {
-		
-		var reservas = this.reservaController.listar();
+	private void cargarTablaReserva(String campo) {
+				
+		var reservas = this.reservaController.listar(campo);
 		
 		reservas.forEach(reserva -> modelo.addRow(new Object[] {
 				reserva.getId(),
@@ -291,27 +333,26 @@ public class Busqueda extends JFrame {
 		}));		
 	}
 	
-	private void cargarTablaHuesped() {
+	private void cargarTablaHuesped(String campo) {
 			
-			var huespedes = this.huespedController.listar();
+		//campoHuesped = "o";
 			
-			huespedes.forEach(huesped -> modeloHuesped.addRow(new Object[] {
-					huesped.getId(),
-					huesped.getNombre(),
-					huesped.getApellido(),
-					huesped.getFechaNacimiento(),
-					huesped.getNacionalidad(),
-					huesped.getTelefono(),
-					huesped.getIdReserva()
-			}));		
-		}
+		var huespedes = this.huespedController.listar(campo);
+			
+		huespedes.forEach(huesped -> modeloHuesped.addRow(new Object[] {
+				huesped.getId(),
+				huesped.getNombre(),
+				huesped.getApellido(),
+				huesped.getFechaNacimiento(),
+				huesped.getNacionalidad(),
+				huesped.getTelefono(),
+				huesped.getIdReserva()
+		}));		
+	}	
 	
-	private void limpiarTablaReserva() {
+	// limpiar tabla
+	private void limpiarTabla(DefaultTableModel modelo) {
 		modelo.getDataVector().clear();
-	}
-	
-	private void limpiarTablaHuesped() {
-		modeloHuesped.getDataVector().clear();
 	}
 //Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
 	 private void headerMousePressed(java.awt.event.MouseEvent evt) {

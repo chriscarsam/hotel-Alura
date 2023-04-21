@@ -23,7 +23,7 @@ public class ReservaDao {
 		
 		try {
 			final PreparedStatement statement = con.prepareStatement("INSERT INTO reservas(fecha_entrada, fecha_salida, valor, forma_pago)"
-					+ " VALUES(?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+					+ " VALUES(?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 			
 			try(statement){
 				
@@ -56,7 +56,7 @@ public class ReservaDao {
 		
 	}
 	
-	public List<Reserva> listarReservas(){
+	public List<Reserva> listarReservas(String campo){
 		
 		List<Reserva> resultado = new ArrayList<>();
 		
@@ -66,9 +66,23 @@ public class ReservaDao {
 		
 		try(con){
 			
-			final PreparedStatement statement = con.prepareStatement("SELECT id, fecha_entrada, fecha_salida, valor, forma_pago FROM reservas");
+			var querySelect = "SELECT id, fecha_entrada, fecha_salida, valor, forma_pago FROM reservas ";
+			
+			if (!campo.isEmpty()) {
+				querySelect += "WHERE id = ? ";
+			}
+			
+				querySelect += "ORDER BY id DESC; ";
+			
+			System.out.println(querySelect);
+			
+			final PreparedStatement statement = con.prepareStatement(querySelect);
 			
 			try(statement){
+				
+				if (!campo.isEmpty()) {
+					statement.setLong(1, Long.valueOf(campo));
+				}
 				
 				statement.execute();
 				

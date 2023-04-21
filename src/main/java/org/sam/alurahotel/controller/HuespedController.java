@@ -18,7 +18,8 @@ public class HuespedController {
 		huespedDao.guardar(huesped);
 	}
 	
-	public List<Huesped> listar() {
-		return huespedDao.listarHuespedes();
+	public List<Huesped> listar(String campo) {
+		return huespedDao.listarHuespedes(campo);
 	}
+
 }

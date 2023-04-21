@@ -23,7 +23,7 @@ public class HuespedDao {
 		
 		try {
 			final PreparedStatement statement = con.prepareStatement("INSERT INTO huespedes(id_reserva, nombre, apellido, fecha_nacimiento, nacionalidad, telefono)"
-					+ " VALUES(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+					+ " VALUES(?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 			
 			try(statement){
 				
@@ -58,7 +58,7 @@ public class HuespedDao {
 		
 	}
 	
-public List<Huesped> listarHuespedes(){
+public List<Huesped> listarHuespedes(String campo){
 		
 		List<Huesped> resultado = new ArrayList<>();
 		
@@ -68,9 +68,23 @@ public List<Huesped> listarHuespedes(){
 		
 		try(con){
 			
-			final PreparedStatement statement = con.prepareStatement("SELECT id, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes");
+			var querySelect = "SELECT id, nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id_reserva FROM huespedes ";
+			
+			if(!campo.isEmpty()) {
+			    querySelect	+= "WHERE apellido LIKE ? ";
+			}
+			
+				querySelect	+= "ORDER BY id DESC; ";
+				
+			System.out.println(querySelect);
+			
+			final PreparedStatement statement = con.prepareStatement(querySelect);
 			
 			try(statement){
+				
+				if(!campo.isEmpty()) {
+					statement.setString(1, "%" + campo + "%");
+				}
 				
 				statement.execute();
 				
