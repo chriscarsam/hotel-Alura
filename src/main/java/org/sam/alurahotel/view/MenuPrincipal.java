@@ -43,6 +43,9 @@ public class MenuPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuPrincipal() {
+		
+		JLabel imagenLogin = new JLabel("");
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/org/sam/alurahotel/imagenes/aH-40px.png")));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 910, 537);
@@ -56,7 +59,7 @@ public class MenuPrincipal extends JFrame {
 
 		
 		Panel panel = new Panel();
-		panel.setBackground(SystemColor.window);
+		panel.setBackground(Color.white);
 		panel.setBounds(0, 0, 910, 537);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -67,7 +70,7 @@ public class MenuPrincipal extends JFrame {
 		panel.add(imagenFondo);
 		
 		JLabel logo = new JLabel("");
-		logo.setBounds(722, 80, 150, 156);
+		logo.setBounds(722, 80, 150, 156);		
 		logo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/org/sam/alurahotel/imagenes/aH-150px.png")));
 		panel.add(logo);
 		
@@ -78,8 +81,8 @@ public class MenuPrincipal extends JFrame {
 		panel_1.setLayout(null);
 		
 		JLabel lblCopyR = new JLabel("Desarrollado por Fulanita de Tal © 2023");
-		lblCopyR.setBounds(315, 11, 284, 19);
-		lblCopyR.setForeground(new Color(240, 248, 255));
+		lblCopyR.setBounds(315, 11, 300, 19);
+		lblCopyR.setForeground(Color.white);
 		lblCopyR.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		panel_1.add(lblCopyR);
 		
@@ -143,16 +146,24 @@ public class MenuPrincipal extends JFrame {
 				login.setVisible(true);
 				dispose();
 			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				imagenLogin.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/org/sam/alurahotel/imagenes/user.png")));				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				imagenLogin.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/org/sam/alurahotel/imagenes/login.png")));				
+			}
 		});
 		btnLogin.setLayout(null);
 		btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-		btnLogin.setBackground(SystemColor.window);
+		btnLogin.setBackground(Color.white);
 		panel.add(btnLogin);
 		
-		JLabel imagenLogin = new JLabel("");
+		//JLabel imagenLogin = new JLabel("");
 		imagenLogin.setBounds(0, 0, 80, 70);
 		btnLogin.add(imagenLogin);
-		imagenLogin.setHorizontalAlignment(SwingConstants.CENTER);
+		imagenLogin.setHorizontalAlignment(SwingConstants.CENTER);		
 		imagenLogin.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/org/sam/alurahotel/imagenes/login.png")));
 		
 		JLabel lblTitulo = new JLabel("LOGIN");

@@ -207,7 +207,7 @@ public class RegistroHuesped extends JFrame {
 		
 		JLabel lblTitulo = new JLabel("REGISTRO HUÉSPED");
 		lblTitulo.setBounds(606, 55, 234, 42);
-		lblTitulo.setForeground(new Color(12, 138, 199));
+		lblTitulo.setForeground(new Color(10, 91, 132));
 		lblTitulo.setFont(new Font("Ubuntu", Font.PLAIN, 23));
 		contentPane.add(lblTitulo);
 		
@@ -265,7 +265,7 @@ public class RegistroHuesped extends JFrame {
 		contentPane.add(separator_1_2_5);
 		
 		JPanel btnguardar = new JPanel();
-		btnguardar.setBounds(723, 560, 122, 35);
+		btnguardar.setBounds(610, 560, 200, 35);
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -274,6 +274,14 @@ public class RegistroHuesped extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnguardar.setBackground(new Color(10,91,132));				
+			}			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnguardar.setBackground(new Color(12, 138, 199));			    
 			}
 		});
 		btnguardar.setLayout(null);
@@ -285,7 +293,7 @@ public class RegistroHuesped extends JFrame {
 		labelGuardar.setHorizontalAlignment(SwingConstants.CENTER);
 		labelGuardar.setForeground(Color.WHITE);
 		labelGuardar.setFont(new Font("Ubuntu", Font.PLAIN, 18));
-		labelGuardar.setBounds(0, 0, 122, 35);
+		labelGuardar.setBounds(0, 0, 200, 35);
 		btnguardar.add(labelGuardar);
 	
 		

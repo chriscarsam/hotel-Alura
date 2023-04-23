@@ -55,7 +55,7 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 788, 527);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
@@ -183,19 +183,19 @@ public class Login extends JFrame {
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnLogin.setBackground(new Color(0, 156, 223));
+				btnLogin.setBackground(new Color(10, 91, 132));
 			}
 		
 			@Override
-			public void mouseExited(MouseEvent e) {
-				btnLogin.setBackground(SystemColor.textHighlight);
+			public void mouseExited(MouseEvent e) {				
+				btnLogin.setBackground(new Color(0, 156, 223));
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Login();
 			}
 		});
-		btnLogin.setBackground(SystemColor.textHighlight);
+		btnLogin.setBackground(new Color(0, 156, 223));
 		btnLogin.setBounds(160, 431, 150, 44);
 		panel.add(btnLogin);
 		btnLogin.setLayout(null);

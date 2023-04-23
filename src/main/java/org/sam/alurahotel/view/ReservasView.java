@@ -101,21 +101,21 @@ public class ReservasView extends JFrame {
 		// Código que crea los elementos de la interfáz gráfica
 		
 		JSeparator separator_1_2 = new JSeparator();
-		separator_1_2.setForeground(SystemColor.textHighlight);
+		separator_1_2.setForeground(new Color(12, 138, 199));
 		separator_1_2.setBounds(68, 195, 289, 2);
-		separator_1_2.setBackground(SystemColor.textHighlight);
+		separator_1_2.setBackground(new Color(12, 138, 199));
 		panel.add(separator_1_2);
 		
 		JSeparator separator_1_3 = new JSeparator();
-		separator_1_3.setForeground(SystemColor.textHighlight);
-		separator_1_3.setBackground(SystemColor.textHighlight);
+		separator_1_3.setForeground(new Color(12, 138, 199));
+		separator_1_3.setBackground(new Color(12, 138, 199));
 		separator_1_3.setBounds(68, 453, 289, 2);
 		panel.add(separator_1_3);
 		
 		JSeparator separator_1_1 = new JSeparator();
-		separator_1_1.setForeground(SystemColor.textHighlight);
+		separator_1_1.setForeground(new Color(12, 138, 199));
 		separator_1_1.setBounds(68, 281, 289, 11);
-		separator_1_1.setBackground(SystemColor.textHighlight);
+		separator_1_1.setBackground(new Color(12, 138, 199));
 		panel.add(separator_1_1);
 		
 		JLabel lblCheckIn = new JLabel("FECHA DE ENTRADA");
@@ -138,7 +138,7 @@ public class ReservasView extends JFrame {
 		
 		JLabel lblTitulo = new JLabel("SISTEMA DE RESERVAS");
 		lblTitulo.setBounds(109, 60, 250, 42);
-		lblTitulo.setForeground(new Color(12, 138, 199));
+		lblTitulo.setForeground(new Color(10, 91, 132));
 		lblTitulo.setFont(new Font("Ubuntu", Font.PLAIN, 23));
 		panel.add(lblTitulo);
 		
@@ -166,9 +166,9 @@ public class ReservasView extends JFrame {
 		panel.add(lblValor);
 		
 		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(SystemColor.textHighlight);
+		separator_1.setForeground(new Color(12, 138, 199));
 		separator_1.setBounds(68, 362, 289, 2);
-		separator_1.setBackground(SystemColor.textHighlight);
+		separator_1.setBackground(new Color(12, 138, 199));
 		panel.add(separator_1);
 												
 		// Componentes para dejar la interfaz con estilo Material Design
@@ -291,7 +291,7 @@ public class ReservasView extends JFrame {
 		txtValor.setForeground(Color.BLACK);
 		txtValor.setBounds(50, 328, 100, 33);
 		txtValor.setEditable(false);
-		txtValor.setFont(new Font("Ubuntu", Font.BOLD, 16));
+		txtValor.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		txtValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		panel.add(txtValor);
 		txtValor.setColumns(10);
@@ -330,7 +330,7 @@ public class ReservasView extends JFrame {
 		labelGuardar.setHorizontalAlignment(SwingConstants.CENTER);
 		labelGuardar.setForeground(Color.WHITE);
 		labelGuardar.setFont(new Font("Ubuntu", Font.PLAIN, 18));
-		labelGuardar.setBounds(0, 0, 122, 35);
+		labelGuardar.setBounds(0, 0, 200, 35);
 		btnsiguiente.add(labelGuardar);
 		
 		btnsiguiente.addMouseListener(new MouseAdapter() {
@@ -342,11 +342,19 @@ public class ReservasView extends JFrame {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");					
 				}
 			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnsiguiente.setBackground(new Color(10,91,132));				
+			}			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnsiguiente.setBackground(new Color(12, 138, 199));			    
+			}
 									
 		});
 		btnsiguiente.setLayout(null);
 		btnsiguiente.setBackground(new Color(12, 138, 199));		
-		btnsiguiente.setBounds(238, 493, 122, 35);
+		btnsiguiente.setBounds(110, 493, 200, 35);
 		panel.add(btnsiguiente);
 		btnsiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
