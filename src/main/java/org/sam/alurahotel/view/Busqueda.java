@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Optional;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
@@ -275,6 +276,7 @@ public class Busqueda extends JFrame {
 					
 					} else {
 						JOptionPane.showMessageDialog(null, "RESERVAS - Ingresar el ID a buscar");
+						txtBuscar.requestFocus();
 						limpiarTabla(modelo);	
 						cargarTablaReserva("");
 					}
@@ -289,6 +291,7 @@ public class Busqueda extends JFrame {
 					
 					} else {
 						JOptionPane.showMessageDialog(null, "HUÉSPEDES - Ingresa el APELLIDO a buscar");
+						txtBuscar.requestFocus();
 						limpiarTabla(modeloHuesped);	
 						cargarTablaHuesped("");
 					}
@@ -324,6 +327,23 @@ public class Busqueda extends JFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {	
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int numTab = panel.getSelectedIndex();
+				switch (numTab) {
+				case 0:					
+					//JOptionPane.showMessageDialog(null, "RESERVAS - Item seleccionado: " + tieneFilaElegida(numTab));	
+					modificarReserva();
+					tbReservas.clearSelection();
+					limpiarTabla(modelo);					
+					cargarTablaReserva("");
+				break;					
+				case 1:
+					//JOptionPane.showMessageDialog(null, "HUÉSPEDES - Item seleccionado: " + tieneFilaElegida(numTab));
+					modificarHuesped();
+					tbHuespedes.clearSelection();
+					limpiarTabla(modeloHuesped);	
+					cargarTablaHuesped("");
+				break;
+				}
 			}
 			
 			@Override
@@ -378,6 +398,18 @@ public class Busqueda extends JFrame {
 		setResizable(false);
 	}
 	
+	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
+		 private void headerMousePressed(java.awt.event.MouseEvent evt) {
+		        xMouse = evt.getX();
+		        yMouse = evt.getY();
+		    }
+
+		    private void headerMouseDragged(java.awt.event.MouseEvent evt) {
+		        int x = evt.getXOnScreen();
+		        int y = evt.getYOnScreen();
+		        this.setLocation(x - xMouse, y - yMouse);
+	}
+	//Cargar datos de reserva
 	private void cargarTablaReserva(String campo) {
 				
 		var reservas = this.reservaController.listar(campo);
@@ -391,12 +423,11 @@ public class Busqueda extends JFrame {
 		}));		
 	}
 	
+	//Cargar datos de huesded
 	private void cargarTablaHuesped(String campo) {
-			
-		//campoHuesped = "o";
-			
+				
 		var huespedes = this.huespedController.listar(campo);
-			
+					
 		huespedes.forEach(huesped -> modeloHuesped.addRow(new Object[] {
 				huesped.getId(),
 				huesped.getNombre(),
@@ -412,15 +443,59 @@ public class Busqueda extends JFrame {
 	private void limpiarTabla(DefaultTableModel modelo) {
 		modelo.getDataVector().clear();
 	}
-//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
-	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
-	        xMouse = evt.getX();
-	        yMouse = evt.getY();
-	    }
+	
+	// Seleccion de item tabla
+	  private boolean tieneFilaElegida(int numTab) {		  	
+		  if(numTab == 0) {
+	  		    return tbReservas.getSelectedRowCount() == 0 || tbReservas.getSelectedColumnCount() == 0;			  
+		  } else {
+				return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedColumnCount() == 0;
+		  }        
+	  }
+	  
+	  // Modificar reseva
+	  private void modificarReserva() {
+		  if (tieneFilaElegida(0)) {
+	            JOptionPane.showMessageDialog(this, "RESERVAS - Por favor, elije un item");		
+	            return;
+	        } 
+		  
+			Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+            .ifPresentOrElse(fila -> {
+                Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+                String fecha_entrada = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
+                String fecha_salida = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
+                Double valor = Double.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString());
+                String forma_pago =  (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
 
-	    private void headerMouseDragged(java.awt.event.MouseEvent evt) {
-	        int x = evt.getXOnScreen();
-	        int y = evt.getYOnScreen();
-	        this.setLocation(x - xMouse, y - yMouse);
-}
+                var	filasModificadas = this.reservaController.modificar(fecha_entrada, fecha_salida, valor, forma_pago, id);
+                
+                JOptionPane.showMessageDialog(this, String.format("%d RESERVA - modificado con éxito!", filasModificadas));
+                
+            }, () -> JOptionPane.showMessageDialog(this, "RESERVAS - Por favor, elije un item"));
+	  }
+	  
+	// Modificar huesped
+		  private void modificarHuesped() {
+			  if (tieneFilaElegida(1)) {
+		            JOptionPane.showMessageDialog(this, "HUÉSPEDES - Por favor, elije un item");		
+		            return;
+		        } 
+			  	
+				Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+	            .ifPresentOrElse(fila -> {
+	                Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+	                String nombre = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
+	                String apellido = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
+	                String fecha_nacimiento = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);	                
+	                String nacionalidad =  (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
+	                String telefono =  (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
+
+	                var	filasModificadas = this.huespedController.modificar(nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id);
+	                
+	                JOptionPane.showMessageDialog(this, String.format("%d HUÉSPED - modificado con éxito!", filasModificadas));
+	                
+	            }, () -> JOptionPane.showMessageDialog(this, "HUÉSPEDES - Por favor, elije un item"));
+		  }
+
 }

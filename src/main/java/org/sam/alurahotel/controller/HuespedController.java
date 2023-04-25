@@ -22,4 +22,7 @@ public class HuespedController {
 		return huespedDao.listarHuespedes(campo);
 	}
 
+	public int modificar(String nombre, String apellido, String fecha_nacimiento, String nacionalidad, String telefono, Long id){
+		return huespedDao.modificar(nombre, apellido, fecha_nacimiento, nacionalidad, telefono, id);	
+	}
 }

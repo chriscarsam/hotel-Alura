@@ -21,4 +21,8 @@ public class ReservaController {
 	public List<Reserva> listar(String campo) {
 		return reservaDao.listarReservas(campo);
 	}
+	
+	public int modificar(String fecha_entrada, String fecha_salida, Double valor, String forma_pago, Long id){
+		return reservaDao.modificar(fecha_entrada, fecha_salida, valor, forma_pago, id);	
+	}
 }

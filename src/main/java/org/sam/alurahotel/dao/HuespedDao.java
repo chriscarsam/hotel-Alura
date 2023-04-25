@@ -111,5 +111,36 @@ public List<Huesped> listarHuespedes(String campo){
 		}
 		return resultado;
 	}
+
+public int modificar(String nombre, String apellido, String fecha_nacimiento, String nacionalidad, String telefono, Long id) {
+	
+	try {			
+
+		final PreparedStatement statement = con.prepareStatement("UPDATE huespedes SET "
+				+ "nombre = ?, "
+				+ "apellido = ?, "
+				+ "fecha_nacimiento = ?, "
+				+ "nacionalidad = ?, "
+				+ "telefono = ? "
+				+ "WHERE id = ?");
+		
+		try(statement) {
+			statement.setString(1, nombre);
+			statement.setString(2, apellido);
+			statement.setString(3, fecha_nacimiento);
+			statement.setString(4, nacionalidad);
+			statement.setString(5, telefono);
+			statement.setLong(6, id);
+			
+			statement.execute();	
+			
+			int updateCount = statement.getUpdateCount();
+						
+			return updateCount;
+		}
+	} catch (SQLException e) {
+		throw new RuntimeException(e);
+	}
+}
 	
 }
