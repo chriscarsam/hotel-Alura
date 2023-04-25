@@ -372,6 +372,21 @@ public class Busqueda extends JFrame {
 		btnEliminar.addMouseListener(new MouseAdapter() {	
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int numTab = panel.getSelectedIndex();
+				switch (numTab) {
+				case 0:
+					eliminarReserva();
+					tbReservas.clearSelection();
+					limpiarTabla(modelo);					
+					cargarTablaReserva("");
+				break;					
+				case 1:
+					eliminarHuesped();
+					tbHuespedes.clearSelection();
+					limpiarTabla(modeloHuesped);	
+					cargarTablaHuesped("");
+				break;
+				}
 			}
 			
 			@Override
@@ -497,5 +512,45 @@ public class Busqueda extends JFrame {
 	                
 	            }, () -> JOptionPane.showMessageDialog(this, "HUÉSPEDES - Por favor, elije un item"));
 		  }
+	
+	// Eliminar reserva
+		  
+		  private void eliminarReserva() {
+		        if (tieneFilaElegida(0)) {
+		            JOptionPane.showMessageDialog(this, "RESERVAS - Por favor, elije un item");
+		            return;
+		        }
+
+		        Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+		                .ifPresentOrElse(fila -> {
+		                    Integer id = Integer.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+
+		                    var	cantidadEliminada = this.reservaController.eliminar(id);
+						
+		                    modelo.removeRow(tbReservas.getSelectedRow());
+
+		                    JOptionPane.showMessageDialog(this, cantidadEliminada + " RESERVA - eliminado con éxito!");
+		                }, () -> JOptionPane.showMessageDialog(this, "RESERVAS - Por favor, elije un item"));
+		    }
+		  
+// Eliminar huésped
+		  
+		  private void eliminarHuesped() {
+		        if (tieneFilaElegida(1)) {
+		            JOptionPane.showMessageDialog(this, "HUÉSPEDES - Por favor, elije un item");
+		            return;
+		        }
+
+		        Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+		                .ifPresentOrElse(fila -> {
+		                    Integer id = Integer.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+
+		                    var	cantidadEliminada = this.huespedController.eliminar(id);
+						
+		                    modeloHuesped.removeRow(tbHuespedes.getSelectedRow());
+
+		                    JOptionPane.showMessageDialog(this, cantidadEliminada + " HUÉSPED - eliminado con éxito!");
+		                }, () -> JOptionPane.showMessageDialog(this, "HUÉSPEDES - Por favor, elije un item"));
+		    }
 
 }

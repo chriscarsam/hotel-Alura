@@ -136,4 +136,25 @@ public class ReservaDao {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public int eliminar(Integer id) {
+		
+		try {
+		
+				final PreparedStatement statement = con.prepareStatement("DELETE FROM reservas WHERE id = ?");
+				
+				try(statement){
+					statement.setInt(1, id);					
+					statement.execute();
+					
+					int updateCount = statement.getUpdateCount();
+					
+					return updateCount;
+				
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+	}
 }

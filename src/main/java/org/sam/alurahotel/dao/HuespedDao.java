@@ -142,5 +142,26 @@ public int modificar(String nombre, String apellido, String fecha_nacimiento, St
 		throw new RuntimeException(e);
 	}
 }
+
+public int eliminar(Integer id) {
+	
+	try {
+	
+			final PreparedStatement statement = con.prepareStatement("DELETE FROM huespedes WHERE id = ?");
+			
+			try(statement){
+				statement.setInt(1, id);					
+				statement.execute();
+				
+				int updateCount = statement.getUpdateCount();
+				
+				return updateCount;
+			
+		}
+	} catch (SQLException e) {
+		throw new RuntimeException(e);
+	}
+	
+}
 	
 }
