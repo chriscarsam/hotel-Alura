@@ -261,7 +261,7 @@ public class ReservasView extends JFrame {
 		
 		//Campos que guardaremos en la base de datos
 		txtFechaEntrada = new JDateChooser();
-		txtFechaEntrada.getCalendarButton().setBackground(new Color(12, 138, 199));	
+		txtFechaEntrada.getCalendarButton().setBackground(new Color(10,91,132));	
 		txtFechaEntrada.getCalendarButton().setIcon(new ImageIcon(ReservasView.class.getResource("/org/sam/alurahotel/imagenes/icon-reservas.png")));
 		txtFechaEntrada.getCalendarButton().setFont(new Font("Ubuntu", Font.PLAIN, 12));
 		txtFechaEntrada.setBounds(68, 161, 289, 35);
@@ -281,7 +281,7 @@ public class ReservasView extends JFrame {
 		txtFechaSalida.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		
 		txtFechaSalida.setDateFormatString("yyyy-MM-dd");
-		txtFechaSalida.getCalendarButton().setBackground(new Color(12, 138, 199));	
+		txtFechaSalida.getCalendarButton().setBackground(new Color(10,91,132));	
 		txtFechaSalida.setBorder(new LineBorder(new Color(255, 255, 255), 0));
 		panel.add(txtFechaSalida);
 

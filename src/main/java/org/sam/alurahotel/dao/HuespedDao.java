@@ -163,5 +163,26 @@ public int eliminar(Integer id) {
 	}
 	
 }
+
+public int eliminarPorIDReserva(Integer id_reserva) {
+	
+	try {
+	
+			final PreparedStatement statement = con.prepareStatement("DELETE FROM huespedes WHERE id_reserva = ?");
+			
+			try(statement){
+				statement.setInt(1, id_reserva);					
+				statement.execute();
+				
+				int updateCount = statement.getUpdateCount();
+				
+				return updateCount;
+			
+		}
+	} catch (SQLException e) {
+		throw new RuntimeException(e);
+	}
+	
+}
 	
 }

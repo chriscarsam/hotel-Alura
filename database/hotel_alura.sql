@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS hotel_alura;
 CREATE DATABASE IF NOT EXISTS hotel_alura;
 USE hotel_alura;
 

@@ -112,11 +112,13 @@ public class Busqueda extends JFrame {
 				switch (numPanel) {
 				case 0:
 					lblBuscar.setText("BUSCAR POR ID");
+					limpiarTabla(modelo);
+					cargarTablaReserva("");
 					break;
 				case 1:					
 					lblBuscar.setText("BUSCAR POR APELLIDO");
-					//limpiarTabla(modeloHuesped);	
-					//cargarTablaHuesped("");
+					limpiarTabla(modeloHuesped);	
+					cargarTablaHuesped("");
 					break;
 				}		
 				
@@ -523,13 +525,15 @@ public class Busqueda extends JFrame {
 
 		        Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
 		                .ifPresentOrElse(fila -> {
+		                	
 		                    Integer id = Integer.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
 
+		                    var	cantidadEliminadaHuesped = this.huespedController.eliminarPorIDReserva(id);
 		                    var	cantidadEliminada = this.reservaController.eliminar(id);
 						
 		                    modelo.removeRow(tbReservas.getSelectedRow());
 
-		                    JOptionPane.showMessageDialog(this, cantidadEliminada + " RESERVA - eliminado con éxito!");
+		                    JOptionPane.showMessageDialog(this, cantidadEliminada + " RESERVA - eliminado con éxito! HUÉSPED " + cantidadEliminadaHuesped);
 		                }, () -> JOptionPane.showMessageDialog(this, "RESERVAS - Por favor, elije un item"));
 		    }
 		  
@@ -544,12 +548,14 @@ public class Busqueda extends JFrame {
 		        Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
 		                .ifPresentOrElse(fila -> {
 		                    Integer id = Integer.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+		                    Integer idReserva = Integer.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 6).toString());
 
 		                    var	cantidadEliminada = this.huespedController.eliminar(id);
+		                    var	cantidadEliminadaReserva = this.reservaController.eliminar(idReserva);
 						
 		                    modeloHuesped.removeRow(tbHuespedes.getSelectedRow());
 
-		                    JOptionPane.showMessageDialog(this, cantidadEliminada + " HUÉSPED - eliminado con éxito!");
+		                    JOptionPane.showMessageDialog(this, cantidadEliminada + " HUÉSPED - eliminado con éxito! RESERVA " + cantidadEliminadaReserva);
 		                }, () -> JOptionPane.showMessageDialog(this, "HUÉSPEDES - Por favor, elije un item"));
 		    }
 

@@ -29,4 +29,8 @@ public class HuespedController {
 	public int eliminar(Integer id) {		
 		return huespedDao.eliminar(id);			
 	}
+	
+	public int eliminarPorIDReserva(Integer id_reserva) {		
+		return huespedDao.eliminarPorIDReserva(id_reserva);			
+	}
 }

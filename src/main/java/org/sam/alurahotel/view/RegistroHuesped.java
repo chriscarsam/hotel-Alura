@@ -155,7 +155,7 @@ public class RegistroHuesped extends JFrame {
 		txtFechaN = new JDateChooser();
 		txtFechaN.setBounds(560, 278, 289, 36);		
 		txtFechaN.getCalendarButton().setIcon(new ImageIcon(RegistroHuesped.class.getResource("/org/sam/alurahotel/imagenes/icon-reservas.png")));
-		txtFechaN.getCalendarButton().setBackground(new Color(12, 138, 199));	
+		txtFechaN.getCalendarButton().setBackground(new Color(10,91,132));	
 		txtFechaN.setDateFormatString("yyyy-MM-dd");
 		txtFechaN.setFont(new Font("Ubuntu", Font.PLAIN, 16));
 		contentPane.add(txtFechaN);
