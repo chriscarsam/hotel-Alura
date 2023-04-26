@@ -14,6 +14,8 @@ import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -50,6 +52,13 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		
+		// apariencia JOprionPanel					
+		UIManager.put("Button.background", new Color(12, 138, 199));
+		UIManager.put("OptionPane.background", Color.white);
+		UIManager.put("Panel.background", Color.white);
+		UIManager.put("Button.foreground", Color.white);
+		
 		setResizable(false);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

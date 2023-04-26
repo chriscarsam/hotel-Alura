@@ -27,6 +27,7 @@ import java.util.Date;
 import java.beans.PropertyChangeEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
 import org.sam.alurahotel.controller.ReservaController;
@@ -75,6 +76,13 @@ public class ReservasView extends JFrame {
 		super("Reserva");
 		
 		this.reservaController = new ReservaController();
+		
+		// apariencia JOprionPanel					
+		UIManager.put("Button.background", new Color(12, 138, 199));
+		UIManager.put("OptionPane.background", Color.white);
+		UIManager.put("Panel.foreground", Color.white);
+		UIManager.put("Panel.background", Color.white);
+		UIManager.put("Button.foreground", Color.white);
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ReservasView.class.getResource("/org/sam/alurahotel/imagenes/aH-40px.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -377,21 +385,17 @@ public class ReservasView extends JFrame {
 
 	// Método guardar Reserva
 	private void guardarReserva() {								 				
-					 
-	/*	  JOptionPane.showMessageDialog(null, "Fecha de registro: " + fechaEntrada + 
-			"\nFecha de salida: " + fechaSalida + 
-			"\nNúmero de días: " + diferenciaDias +
-			"\nValor a cancelar: $ " + valor +
-			"\nForma de pago: " + txtFormaPago.getSelectedItem()); 			*/			
 		  	
 		 Reserva nuevaReserva = new Reserva(fechaEntrada.toString(), fechaSalida.toString(), valor, (String)txtFormaPago.getSelectedItem());
 		 this.reservaController.guardar(nuevaReserva);
-				
+		 
+		 dispose();
+		 
 		 JOptionPane.showMessageDialog(this, "Registrado con éxito! \nNúmero de reserva: " + nuevaReserva.getId());
 		 
 		 RegistroHuesped huesped = new RegistroHuesped(nuevaReserva.getId());
 		 huesped.setVisible(true);
-		 dispose();
+		 
 	}
 	
 	

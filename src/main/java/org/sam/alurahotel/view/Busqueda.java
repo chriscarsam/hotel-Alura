@@ -1,38 +1,32 @@
 package org.sam.alurahotel.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.util.Optional;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.sam.alurahotel.controller.HuespedController;
 import org.sam.alurahotel.controller.ReservaController;
-
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.SystemColor;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.util.List;
-import java.util.Optional;
-import java.awt.event.ActionEvent;
-import javax.swing.JTabbedPane;
-import java.awt.Toolkit;
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
-import javax.swing.ListSelectionModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
@@ -70,10 +64,16 @@ public class Busqueda extends JFrame {
 	 * Create the frame.
 	 */
 	public Busqueda() {
-		super("Reservas");
+		super("Reservas");		
 		
 		this.reservaController = new ReservaController();
 		this.huespedController = new HuespedController();
+		
+		// apariencia JOprionPanel					
+		UIManager.put("Button.background", new Color(12, 138, 199));
+		UIManager.put("OptionPane.background", Color.white);
+		UIManager.put("Panel.background", Color.white);
+		UIManager.put("Button.foreground", Color.white);
 		
 		JLabel lblBuscar = new JLabel("BUSCAR POR ID");
 		
@@ -108,7 +108,7 @@ public class Busqueda extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int numPanel= panel.getSelectedIndex();				
-				//JOptionPane.showMessageDialog(null, "Panel" + panel.getSelectedIndex());
+
 				switch (numPanel) {
 				case 0:
 					lblBuscar.setText("BUSCAR POR ID");
@@ -331,15 +331,13 @@ public class Busqueda extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int numTab = panel.getSelectedIndex();
 				switch (numTab) {
-				case 0:					
-					//JOptionPane.showMessageDialog(null, "RESERVAS - Item seleccionado: " + tieneFilaElegida(numTab));	
+				case 0:
 					modificarReserva();
 					tbReservas.clearSelection();
 					limpiarTabla(modelo);					
 					cargarTablaReserva("");
 				break;					
-				case 1:
-					//JOptionPane.showMessageDialog(null, "HUÉSPEDES - Item seleccionado: " + tieneFilaElegida(numTab));
+				case 1:					
 					modificarHuesped();
 					tbHuespedes.clearSelection();
 					limpiarTabla(modeloHuesped);	

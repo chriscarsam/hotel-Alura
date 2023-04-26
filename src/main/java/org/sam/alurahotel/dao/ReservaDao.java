@@ -50,7 +50,7 @@ public class ReservaDao {
 		try(resultSet){
 			while(resultSet.next()) {
 				reserva.setId(resultSet.getLong(1));
-				System.out.println(String.format("Fue insertado el producto %s", reserva));
+				//System.out.println(String.format("Fue insertado el producto %s", reserva));
 			}
 		}
 		
@@ -74,7 +74,7 @@ public class ReservaDao {
 			
 				querySelect += "ORDER BY id DESC; ";
 			
-			System.out.println(querySelect);
+			//System.out.println(querySelect);
 			
 			final PreparedStatement statement = con.prepareStatement(querySelect);
 			

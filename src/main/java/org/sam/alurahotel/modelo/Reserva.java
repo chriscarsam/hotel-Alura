@@ -1,7 +1,5 @@
 package org.sam.alurahotel.modelo;
 
-import java.util.List;
-
 public class Reserva {	
 	
 	private Long id;
@@ -9,8 +7,7 @@ public class Reserva {
 	private String fechaSalida;
 	private Long valor;
 	private String formaPago;
-	private List<Huesped> huespedes;
-		
+			
 	public Reserva(String fechaEntrada, String fechaSalida, Long valor, String formaPago) {
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
@@ -64,14 +61,6 @@ public class Reserva {
 
 	public void setFormaPago(String formaPago) {
 		this.formaPago = formaPago;
-	}
-
-	public List<Huesped> getHuespedes() {
-		return huespedes;
-	}
-
-	public void setHuespedes(List<Huesped> huespedes) {
-		this.huespedes = huespedes;
 	}
 	
 	@Override

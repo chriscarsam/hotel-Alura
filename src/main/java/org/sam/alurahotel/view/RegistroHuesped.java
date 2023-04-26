@@ -27,6 +27,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
@@ -71,6 +72,13 @@ public class RegistroHuesped extends JFrame {
 		super("Huesped");
 		
 		this.huespedController = new HuespedController();
+		
+		// apariencia JOprionPanel					
+		UIManager.put("Button.background", new Color(12, 138, 199));
+		UIManager.put("OptionPane.background", Color.white);
+		UIManager.put("Panel.background", Color.white);
+		UIManager.put("Panel.background", Color.white);
+		UIManager.put("Button.foreground", Color.white);
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistroHuesped.class.getResource("/org/sam/alurahotel/imagenes/lOGO-50PX.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -272,6 +280,11 @@ public class RegistroHuesped extends JFrame {
 				if (!txtNombre.getText().isEmpty() && !txtApellido.getText().isEmpty() && txtFechaN.getDate() != null && !txtTelefono.getText().isEmpty()) {
 					guardarHuesped();		
 				} else {
+					// apariencia JOprionPanel					
+					UIManager.put("Button.background", new Color(12, 138, 199));
+					UIManager.put("OptionPane.background", Color.white);
+					UIManager.put("Panel.background", Color.white);
+					UIManager.put("Button.foreground", Color.white);
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
 			}
@@ -358,21 +371,22 @@ public class RegistroHuesped extends JFrame {
 		// Método guardar Huesped
 		private void guardarHuesped() {		
 			fechaN = convertToLocalDateViaInstant(txtFechaN.getDate());
-			/*JOptionPane.showMessageDialog(null, 
-					"Nombre: " + txtNombre.getText() +
-					"\nApellido: " + txtApellido.getText() +
-					"\nFecha de nacimiento: " + fechaN +
-					"\nTélefono: " + txtTelefono.getText() + 
-					"\nNúmero de reserva: " + txtNreserva.getText());		*/
 			
 			Huesped nuevoHuesped = new Huesped(txtNombre.getText(), txtApellido.getText(), fechaN.toString(), (String)txtNacionalidad.getSelectedItem(), txtTelefono.getText(), Long.valueOf(txtNreserva.getText()));
 			this.huespedController.guardar(nuevoHuesped);
 			
+			dispose();
+			
+			// apariencia JOprionPanel					
+			UIManager.put("Button.background", new Color(12, 138, 199));
+			UIManager.put("OptionPane.background", Color.white);
+			UIManager.put("Panel.background", Color.white);
+			UIManager.put("Button.foreground", Color.white);
 			JOptionPane.showMessageDialog(this, "Registrado con éxito! ");
 			
 			MenuUsuario usuario = new MenuUsuario();
 			usuario.setVisible(true);
-			dispose();
+			
 		}
 	
 	//Código que permite mover la ventana por la pantalla según la posición de "x" y "y"	

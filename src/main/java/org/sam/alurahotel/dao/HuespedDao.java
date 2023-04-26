@@ -52,7 +52,7 @@ public class HuespedDao {
 		try(resultSet){
 			while(resultSet.next()) {
 				huesped.setId(resultSet.getLong(1));
-				System.out.println(String.format("Fue insertado el huesped %s", huesped));
+				//System.out.println(String.format("Fue insertado el huesped %s", huesped));
 			}
 		}
 		
@@ -76,7 +76,7 @@ public List<Huesped> listarHuespedes(String campo){
 			
 				querySelect	+= "ORDER BY id DESC; ";
 				
-			System.out.println(querySelect);
+			//System.out.println(querySelect);
 			
 			final PreparedStatement statement = con.prepareStatement(querySelect);
 			
