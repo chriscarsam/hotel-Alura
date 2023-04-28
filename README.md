@@ -4,8 +4,8 @@
 
 Video YouTube: https://youtu.be/5mcbl6d-dYk
 
-## El desfío presenta los retos siguientes:
-Se facilita la interfaz gráfica y el diagrama de base de datos del proyecto hotel, por parte de altura.
+## El desafío presenta los siguientes retos:
+Se facilita la interfaz gráfica y el diagrama de base de datos del proyecto hotel, por parte de Alura.
 * Se solicita implementar la parte lógica para que funcione el proyecto.
 * Conexión con la base de datos, realizar el CRUD de reservas y huéspedes.
 
